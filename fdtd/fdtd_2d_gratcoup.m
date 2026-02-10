@@ -20,21 +20,21 @@ u0 = 4*pi*1e-7*1e-6;
 c0 = 1/sqrt(e0*u0);
 %% material parameters
 noxide = 1.45;        % index of oxide
-nsi = 3.48;           % index of silicon
+nsi = 3.50;           % index of silicon
 %% adjustable variables
-lambdac = 1.55;       % vacuum center wavelength
+lambdac = 1.310;       % vacuum center wavelength
 time = 200e-15;       % time length of simulation (s)
 xlim = 7;             % limits of x window (window width = 2*xlim)
-ylim = 2;             % limits of y window (window width = 2*ylim)
+ylim = 5;             % limits of y window (window width = 2*ylim)
 Dx = 0.02;            % x grid size
 Dy = Dx;              % y grid size
 pulsew = 10e-15;      % input pulse width (s)
-Nplot = 10;            % plots every Nplot time steps (to speed execution)
+Nplot = 20;            % plots every Nplot time steps (to speed execution)
 %% waveguide parameters
-wg.h = 0.22;            % waveguide height
-grat.pitch = 0.595;      % grating pitch
-grat.depth = 0.1;      % grating depth
-grat.num = 14;          % number of grating notches
+wg.h = 0.34;            % waveguide height
+grat.pitch = 0.51;      % grating pitch
+grat.depth = 0.120;      % grating depth
+grat.num = 20;          % number of grating notches
 grat.start = 2;         % length of waveguide before starting grating
 l = xlim*2;             % length of straight waveguide
 %% calculated variables
@@ -53,7 +53,7 @@ er2 = noxide^2*ones(Nx2,Ny2);
 for s = 0:Dx2/5:l
     for h = -wg.h/2:Dx2/5:wg.h/2
         xp = round(s/Dx2);
-        yp = round((0.5+wg.h/2+h)/Dy2);
+        yp = round((2.5+wg.h/2+h)/Dy2);
         if xp > 0 && xp < Nx2+1 && yp > 0 && yp < Ny2+1
             er2(xp,yp) = nsi^2;
         end
@@ -64,7 +64,7 @@ for m = 1:grat.num
     for s = -grat.pitch/4:Dx2/5:grat.pitch/4
         for h = -grat.depth:Dy2/5:0
             xp = round((s+grat.start+(m-1)*grat.pitch)/Dx2);
-            yp = round((0.5+wg.h+h)/Dy2);
+            yp = round((2.5+wg.h+h)/Dy2);
             if xp > 0 && xp < Nx2+1 && yp > 0 && yp < Ny2+1
                 er2(xp,yp) = noxide^2;
             end
@@ -72,8 +72,8 @@ for m = 1:grat.num
     end
 end
 %% calculate erx, ery
-for xn = 1:Nx;
-    for yn = 1:Ny;
+for xn = 1:Nx
+    for yn = 1:Ny
         erx(xn,yn) = (er2(2*xn,2*yn-1) + er2(2*xn+1,2*yn-1)...
             + er2(2*xn,2*yn) + er2(2*xn+1,2*yn))/4;
         ery(xn,yn) = (er2(2*xn-1,2*yn) + er2(2*xn-1,2*yn+1)...
@@ -88,7 +88,7 @@ end
 erplot = -abs(gradient(erx).' + gradient(ery.'));
 %% define profile of launch field
 ya = (1:Ny)*Dy;
-envy = 50*Dx*exp(-((ya-0.5-wg.h/2)/wg.h*2/2).^2)/2;
+envy = 50*Dx*exp(-((ya-2.5-wg.h/2)/wg.h*2/2).^2)/2;
 %% initialize fields
 Ex = zeros(Nx,Ny);
 Ey = zeros(Nx,Ny);
@@ -122,10 +122,10 @@ for cnt = 1:numsteps
     Ez = Eznew;
     %% plot field
     if round(cnt/Nplot)==cnt/Nplot
-        h = surf(x,y,Ez.'+ erplot);
+        h = surf(x,y,2*Ez.'+ erplot);
         axis([-xlim xlim -ylim ylim -inf inf])
         axis equal
-        caxis([-1 1])
+        clim([-1 1])
         view(0,90)
         set(h,'linestyle','none')
         set(gca,'fontsize',14)
