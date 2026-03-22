@@ -10,9 +10,9 @@ Ny = 300;      % 700
 xlim = 1.5;
 ylim = 1.0;
 %% waveguide parameters
-wg.w = 0.3;         % waveguide width
+wg.w = 0.5;         % waveguide width
 wg.h = 0.22;        % waveguide height
-ncore = 3.48;       % index of core
+ncore = 3.50;       % index of core
 nclad = 1.45;       % index of cladding
 neff_guess = 2.5;   % initial guess for effective index
 %% grid calculations

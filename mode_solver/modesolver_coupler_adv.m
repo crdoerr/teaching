@@ -12,7 +12,7 @@ ylim = 1.0;
 %% waveguide parameters
 wg.w = 0.4;         % waveguide width
 wg.h = 0.22;        % waveguide height
-wg.sp = 1.2;        % center-to-center spacing
+wg.sp = 0.9;        % center-to-center spacing
 ncore = 3.48;       % index of core
 nclad = 1.45;       % index of cladding
 neff_guess = 2.9;   % initial guess for effective index

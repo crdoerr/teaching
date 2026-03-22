@@ -11,7 +11,7 @@ xlim = 1.5;
 ylim = 1.0;
 %% waveguide parameters
 wg.w = 0.41;         % waveguide width
-wg.h = 0.40;        % waveguide height
+wg.h = 0.22;        % waveguide height
 wg.slabh = 0.10;
 ncore = 3.48;       % index of core
 nclad = 1.45;       % index of cladding

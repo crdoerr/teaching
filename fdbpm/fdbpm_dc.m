@@ -17,7 +17,7 @@ SMFw = 1.0;           % width of single-mode waveguide
 %% directional coupler parameters
 dc.w = 0.4;
 dc.sp = 0.68;
-dc.l = 40;
+dc.l = 5;
 dc.R = 25;
 dc.a = 8*pi/180;
 %% simulation parameters
@@ -92,7 +92,8 @@ pwrout = sum(abs(u).^2);
 %% plot results
 fprintf('Power is conserved to within %4.3f percent.\n',abs((pwrout-pwrin)/pwrin)*100)
 clf
-m = 1:size(Z);
+sizeZ = size(Z);
+m = 1:sizeZ(1);
 h = surface(m*Dz*N,x,(Z.'-Y.'/100));
 % caxis([0 0.5])
 colormap('jet')  %'colorcube' is also nice
