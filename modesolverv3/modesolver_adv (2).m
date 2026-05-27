@@ -5,8 +5,6 @@
 clear
 %% simulation variables
 lambdac = 1.310;     % vacuum center wavelength
-Nx = 300;      % 700
-Ny = 300;      % 700
 xlim = 1.5;
 ylim = 1.0;
 %% waveguide parameters
