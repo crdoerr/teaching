@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % finite difference mode solver
-% Chris Doerr 2022
+% Chris Doerr 2022; Updated Rishay Gupta 2026
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 clear
 %% simulation variables
