@@ -1,18 +1,18 @@
-function [neff_s,Exmat_s,Eymat_s,Ezmat_s,Hxmat_s,Hymat_s,Hzmat_s] = modesolve_v2(lambdac,x_,y_,ermat,neff_guess,nummodes,pol,modenum)
+function [neff_s,Exmat_s,Eymat_s,Ezmat_s,Hxmat_s,Hymat_s,Hzmat_s] = modesolve_v3(lambdac,x_,y_,ermat,neff_re, neff_im, nummodes,pol,modenum)
 % function that calculates waveguide eigenmode
 %% physical constants
 e0 = 8.854188e-12*1e-6;
 u0 = 4*pi*1e-7*1e-6;
-c0 = 1/sqrt(e0*u0);
 Z0 = sqrt(u0/e0);
 %% calculated variables
 Nx = length(x_);
 Ny = length(y_);
 k0 = 2*pi/lambdac;
+neff_guess = neff_re - 1i*neff_im;  % complex refractive index guess
 
 pml_thick = 0.3;      % um
 sigma_max = 8;        % tune upward if reflections remain
-pml_order = 3;
+pml_order = 3;        % cubic absorption for s
 
 sx_1d = make_pml(x_, pml_thick, sigma_max, pml_order, k0);
 sy_1d = make_pml(y_, pml_thick, sigma_max, pml_order, k0);
@@ -114,6 +114,14 @@ for y = 1:Ny
     Hzmat_s(:,y) = imag(Hz((y-1)*Nx+1:y*Nx))/maxfield;
 end
 neff_s = neff;
+
+% calculate propagation loss from complex index
+ni = -imag(neff);              % positive loss if neff has negative imaginary part
+lambda_cm = lambdac * 1e-4;    % convert um to cm
+loss_dB_cm = 8.686 * 4*pi*ni / lambda_cm;
+
+disp(['neff = ' num2str(neff)])
+disp(['Loss = ' num2str(loss_dB_cm) ' dB/cm'])
 %% plot results
 for i = 1:nummodes
     neff = neff_(i);
