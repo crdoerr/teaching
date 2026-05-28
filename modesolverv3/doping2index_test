@@ -1,0 +1,8 @@
+Ne = 1e18;
+Nh = 5e9;
+band = 'C';
+
+[Dn,lossdBpercm,a_power] = doping2index(Ne,Nh,band);
+
+n_silicon = 3.477;
+n_doped = n_silicon + Dn;
