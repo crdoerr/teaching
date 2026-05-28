@@ -1,0 +1,25 @@
+function [Dn,lossdBpercm,a_power] = doping2index(Ne,Nh,band)
+if strcmp(band,'C')
+    lambda = 1.545;
+    %---my equations
+    %Dnr = -8.8e-22*Ne - 8.5e-18*(Nh).^0.8;
+    %Dni = 2.5e-26*Ne.^1.2 + 2.2e-24*Nh.^1.08;
+    
+    %---Nedeljkovic equations
+    Dnr = -5.40e-22*Ne.^1.011 - 1.53e-18*Nh.^0.838;
+    Dni = (8.88e-21*Ne.^1.167 + 5.84e-20*Nh.^1.109)*lambda*1e-6*100/4/pi;
+else
+    lambda = 1.310;
+    %---my equations
+    %Dnr = -0.65*8.8e-22*Ne - 0.7388*8.5e-18*(Nh).^0.8;
+    %Dni = 0.66*2.5e-26*Ne.^1.2 + 0.63*2.2e-24*Nh.^1.08;
+    
+    %---Nedeljkovic equations
+    Dnr = -2.98e-22*Ne.^1.016 - 1.25e-18*Nh.^0.835;
+    Dni = (3.48e-22*Ne.^1.229 + 1.02e-19*Nh.^1.089)*lambda*1e-6*100/4/pi;
+end
+
+Dn = Dnr + 1i*Dni;
+a_power = 4*pi*Dni/(lambda*1e-6)/100;
+lossdBpercm = 10*4*pi*Dni/(lambda*1e-6)/100/log(10);  % loss in dB/cm3
+end
